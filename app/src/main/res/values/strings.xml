@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">AndroidImageOptimization</string>
     <string name="title_detail">Chi tiết sản phẩm</string>
+    <string name="title_list">Danh sách sản phẩm</string>
+    <string name="menu_count_100">100 ảnh</string>
+    <string name="menu_count_500">500 ảnh</string>
+    <string name="menu_count_1000">1.000 ảnh</string>
+    <string name="menu_clear_cache">Clear cache</string>
+    <string name="msg_clear_cache_pending">Clear cache: chưa gắn (chờ Coil)</string>
 </resources>
