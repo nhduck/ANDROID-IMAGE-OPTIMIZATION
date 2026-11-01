@@ -26,6 +26,7 @@ class ProductAdapter(
         val product = getItem(position)
         holder.binding.tvName.text = product.name
         holder.binding.tvDescription.text = product.description
+        holder.binding.ivThumb.loadImage(product.thumbUrl)
         holder.binding.root.setOnClickListener { onItemClick(product) }
     }
 
