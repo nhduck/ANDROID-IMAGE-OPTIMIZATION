@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_count_100"
+            android:checked="true"
+            android:title="@string/menu_count_100"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_count_500"
+            android:title="@string/menu_count_500"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_count_1000"
+            android:title="@string/menu_count_1000"
+            app:showAsAction="never" />
+    </group>
+
+    <item
+        android:id="@+id/action_clear_cache"
+        android:title="@string/menu_clear_cache"
+        app:showAsAction="never" />
+</menu>
