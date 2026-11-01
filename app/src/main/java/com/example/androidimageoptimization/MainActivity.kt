@@ -13,7 +13,9 @@ import com.example.androidimageoptimization.ui.ProductAdapter
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val adapter = ProductAdapter()
+    private val adapter = ProductAdapter { product ->
+        startActivity(DetailActivity.newIntent(this, product.id))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
