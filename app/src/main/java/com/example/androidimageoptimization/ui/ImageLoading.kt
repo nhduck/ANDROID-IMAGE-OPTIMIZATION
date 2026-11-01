@@ -3,6 +3,12 @@ package com.example.androidimageoptimization.ui
 import android.widget.ImageView
 import com.example.androidimageoptimization.R
 
+/** Ảnh dùng chung cho cả hai nhánh baseline và optimized. */
+object ImagePlaceholders {
+    val loading = R.drawable.ic_placeholder   // đang tải
+    val error = R.drawable.ic_error           // tải lỗi
+}
+
 /**
  * ĐIỂM CẮM DUY NHẤT để hiển thị ảnh trong toàn app.
  * Hiện tại: chỉ đặt placeholder, chưa tải ảnh thật.

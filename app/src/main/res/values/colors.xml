@@ -3,4 +3,8 @@
     <color name="image_placeholder_bg">#DDDDDD</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="placeholder_bg">#DDDDDD</color>
+    <color name="placeholder_icon">#9E9E9E</color>
+    <color name="error_bg">#FDE7E7</color>
+    <color name="error_icon">#D32F2F</color>
 </resources>
