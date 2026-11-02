@@ -1,29 +1,54 @@
 package com.example.androidimageoptimization.ui
 
+import android.content.Context
+import android.graphics.BitmapFactory
 import android.widget.ImageView
 import com.example.androidimageoptimization.R
-import android.content.Context
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.concurrent.Executors
 
-/** Ảnh dùng chung cho cả hai nhánh baseline và optimized. */
+private val imageExecutor = Executors.newFixedThreadPool(4)
+
 object ImagePlaceholders {
-    val loading = R.drawable.ic_placeholder   // đang tải
-    val error = R.drawable.ic_error           // tải lỗi
+    val loading = R.drawable.ic_placeholder
+    val error = R.drawable.ic_error
 }
 
-/**
- * ĐIỂM CẮM DUY NHẤT để hiển thị ảnh trong toàn app.
- * Hiện tại: chỉ đặt placeholder, chưa tải ảnh thật.
- * TODO: thay phần thân hàm bằng Coil
- *   (tải bất đồng bộ, cache RAM + disk, resize, placeholder, ảnh lỗi, timeout).
- */
-fun ImageView.loadImage(url: String) {
-    setImageResource(R.drawable.ic_placeholder)
+fun ImageView.loadImage(imageUrl: String) {
+    tag = imageUrl
+    setImageResource(ImagePlaceholders.loading)
+
+    imageExecutor.execute {
+        var connection: HttpURLConnection? = null
+
+        val imageBitmap = try {
+            connection = URL(imageUrl).openConnection() as HttpURLConnection
+            connection.connectTimeout = 10000
+            connection.readTimeout = 10000
+            connection.useCaches = false
+
+            connection.inputStream.use { input ->
+                BitmapFactory.decodeStream(input)
+            }
+        } catch (exception: Exception) {
+            null
+        } finally {
+            connection?.disconnect()
+        }
+
+        post {
+            if (tag == imageUrl) {
+                if (imageBitmap != null) {
+                    setImageBitmap(imageBitmap)
+                } else {
+                    setImageResource(ImagePlaceholders.error)
+                }
+            }
+        }
+    }
 }
 
-/**
- * ĐIỂM CẮM thứ hai: xóa toàn bộ cache ảnh (RAM + disk).
- * TODO: gọi imageLoader.memoryCache?.clear() và imageLoader.diskCache?.clear().
- */
 fun clearImageCache(context: Context) {
-    // chưa làm gì, chờ Coil
+    // co so chua luu cache
 }
