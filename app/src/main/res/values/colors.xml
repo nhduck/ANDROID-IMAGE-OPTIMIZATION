@@ -7,4 +7,9 @@
     <color name="placeholder_icon">#9E9E9E</color>
     <color name="error_bg">#FDE7E7</color>
     <color name="error_icon">#D32F2F</color>
+    <color name="brand_primary">#3949AB</color>
+    <color name="brand_primary_dark">#283593</color>
+    <color name="brand_container">#E8EAF6</color>
+    <color name="surface_bg">#F4F6FA</color>
+    <color name="text_secondary">#6B7280</color>
 </resources>

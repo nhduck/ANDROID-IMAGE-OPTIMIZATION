@@ -7,5 +7,5 @@ data class Product (
     //cho ảnh nhỏ dùng cho danh sách
     val thumbUrl: String,
     //ảnh lớn dùng cho xem chi tiết
-    val imageUrl: String
+    val imageUrl: String,
 )
