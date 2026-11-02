@@ -1,41 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/item_padding">
-
-    <ImageView
-        android:id="@+id/ivThumb"
-        android:layout_width="@dimen/item_image_size"
-        android:layout_height="@dimen/item_image_size"
-        android:background="@color/image_placeholder_bg"
-        android:scaleType="centerCrop" />
+    android:layout_marginStart="@dimen/card_margin_h"
+    android:layout_marginTop="@dimen/card_margin_v"
+    android:layout_marginEnd="@dimen/card_margin_h"
+    android:layout_marginBottom="@dimen/card_margin_v"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="@dimen/card_corner"
+    app:cardElevation="@dimen/card_elevation"
+    app:strokeWidth="0dp">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/item_text_margin"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:padding="@dimen/item_padding">
 
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="@dimen/item_name_size"
-            android:textStyle="bold" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivThumb"
+            android:layout_width="@dimen/item_image_size"
+            android:layout_height="@dimen/item_image_size"
+            android:background="@color/image_placeholder_bg"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.RoundedImage" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textSize="@dimen/item_desc_size" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/item_text_margin"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip"
+                android:paddingStart="8dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/brand_primary_dark"
+                android:textSize="@dimen/chip_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="#1F2937"
+                android:textSize="@dimen/item_name_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/item_desc_size" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

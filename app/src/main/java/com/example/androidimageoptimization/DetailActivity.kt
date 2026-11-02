@@ -2,11 +2,14 @@ package com.example.androidimageoptimization
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.example.androidimageoptimization.data.ProductRepository
 import com.example.androidimageoptimization.databinding.ActivityDetailBinding
 import com.example.androidimageoptimization.ui.loadImage
@@ -17,13 +20,14 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT))
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(bars.left, bars.top, bars.right, 0)
+            binding.scroll.updatePadding(bottom = bars.bottom)
             insets
         }
 
@@ -37,8 +41,9 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.tvName.text = product.name
+        binding.tvCode.text = getString(R.string.product_code, product.id)
         binding.tvDescription.text = product.description
-        binding.ivImage.loadImage(product.imageUrl)   // ảnh lớn cho màn hình chi tiết
+        binding.ivImage.loadImage(product.imageUrl)
     }
 
     companion object {
