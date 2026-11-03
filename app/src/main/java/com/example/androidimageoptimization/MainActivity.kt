@@ -11,6 +11,9 @@ import com.example.androidimageoptimization.data.ProductRepository
 import com.example.androidimageoptimization.databinding.ActivityMainBinding
 import com.example.androidimageoptimization.ui.ProductAdapter
 import com.example.androidimageoptimization.ui.clearImageCache
+import android.graphics.Color
+import androidx.activity.SystemBarStyle
+import androidx.core.view.updatePadding
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,16 +27,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT))
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(bars.left, bars.top, bars.right, 0)
+            binding.recyclerView.updatePadding(
+                bottom = bars.bottom + resources.getDimensionPixelSize(R.dimen.list_padding_vertical),
+            )
             insets
         }
-
         repository = ProductRepository(this)
         currentCount = savedInstanceState?.getInt(KEY_COUNT, DEFAULT_COUNT) ?: DEFAULT_COUNT
 
@@ -41,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = adapter
 
+        binding.toolbar.overflowIcon?.setTint(Color.WHITE)
         setupMenu()
         showProducts(currentCount)
     }
