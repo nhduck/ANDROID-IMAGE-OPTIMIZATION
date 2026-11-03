@@ -1,51 +1,124 @@
-# Android Image Optimization (Đề tài 02)
+# 📱 Android Image Optimization
 
-Ứng dụng danh sách sản phẩm dùng để thực nghiệm tối ưu tải, cache và hiển thị ảnh.
-Phần này: giao diện và dữ liệu. Phần tải ảnh bằng Coil đang ch bạn Duck dễ thương tố tính làm.
+## 🔎 Giới thiệu
 
-## Chức năng hiện có
-- Danh sách sản phẩm (RecyclerView) cuộn được, chọn 100 / 500 / 1.000 mục từ menu.
-- Bấm một mục để mở màn hình chi tiết (ảnh lớn, tên, mô tả).
-- Placeholder (`ic_placeholder`) và ảnh lỗi (`ic_error`) dùng chung cho mọi nhánh.
-- Nút Clear cache trong menu (đã có giao diện, chưa có logic).
-- Chưa tải ảnh thật: tất cả ảnh hiện đang là placeholder.
+Ứng dụng minh họa danh sách sản phẩm có ảnh, màn hình chi tiết và khả năng cuộn qua nhiều mục. Dự án phục vụ việc tìm hiểu và đánh giá các kỹ thuật tải ảnh, cache, resize và hiển thị ảnh trên Android.
 
-## Cấu trúc mã nguồn
-```
+## ✨ Chức năng
+
+- Hiển thị danh sách bằng `RecyclerView`.
+- Chọn số lượng sản phẩm: **100, 500 hoặc 1.000**.
+- Chạm vào sản phẩm để xem ảnh lớn, tên và mô tả.
+- Hiển thị placeholder khi tải ảnh và ảnh thay thế khi xảy ra lỗi.
+- Có mục xóa cache trong menu.
+- Dữ liệu sản phẩm được lưu trong `products.json`, gồm URL ảnh thu nhỏ và URL ảnh chi tiết.
+
+> **Trạng thái mã nguồn:** Trong bản ZIP hiện tại, giao diện danh sách, màn hình chi tiết và placeholder đã có; ảnh thật, Coil và chức năng xóa cache cần được hoàn thiện trước khi mô tả là đã hoạt động.
+
+## 🗂️ Cấu trúc dự án
+
+```text
 app/src/main/
-  assets/products.json            Dữ liệu 1.000 sản phẩm
-  java/.../
-    MainActivity.kt               Danh sách, menu chọn số lượng, Clear cache
-    DetailActivity.kt             Màn hình chi tiết
-    model/Product.kt              id, name, description, thumbUrl, imageUrl
-    data/ProductRepository.kt     Đọc products.json, getProducts(count), getProductById(id)
-    ui/ProductAdapter.kt          Adapter của danh sách (ListAdapter + DiffUtil)
-    ui/ImageLoading.kt            loadImage(url), clearImageCache(context), ImagePlaceholders
-  res/layout/                     activity_main, item_product, activity_detail
-  res/menu/menu_main.xml          Menu chọn 100/500/1000 và Clear cache
-  res/values/dimens.xml           Kích thước ảnh, khoảng cách, cỡ chữ
-src/test/.../GenerateProductsTest.kt   Công cụ sinh products.json
+├── assets/
+│   └── products.json              Dữ liệu 1.000 sản phẩm
+├── java/.../
+│   ├── MainActivity.kt             Danh sách, chọn số lượng và menu
+│   ├── DetailActivity.kt           Màn hình chi tiết
+│   ├── model/
+│   │   └── Product.kt              Mô hình dữ liệu sản phẩm
+│   ├── data/
+│   │   └── ProductRepository.kt    Đọc và truy xuất dữ liệu
+│   └── ui/
+│       ├── ProductAdapter.kt        Adapter cho RecyclerView
+│       └── ImageLoading.kt          Điểm đặt logic tải ảnh và cache
+└── res/
+    ├── layout/                      Các giao diện XML
+    ├── menu/menu_main.xml           Menu chọn số lượng và xóa cache
+    └── values/dimens.xml            Kích thước ảnh và khoảng cách
 ```
 
-## Build và chạy
-1. Mở project bằng Android Studio, chờ Gradle sync.
-2. Chọn emulator, bấm Run.
+## 🧰 Yêu cầu
 
-## Đổi nguồn dữ liệu / nguồn ảnh
-`products.json` được sinh bởi `GenerateProductsTest`.
-1. Sửa `baseUrl` (hiện là `https://picsum.photos/seed`), ví dụ `http://10.0.2.2:8000` khi dùng server local.
-2. Nếu cấu trúc đường dẫn ảnh khác, sửa hai dòng tạo `thumbUrl` và `imageUrl`.
-3. Gỡ dòng `@Ignore` (nếu có), chạy test `generateProductsJson`, rồi thêm lại `@Ignore`.
+- Android Studio
+- JDK tương thích với phiên bản Gradle của dự án
+- Android Emulator hoặc thiết bị Android
+- Kết nối Internet nếu tải ảnh từ URL công khai
 
-## Điểm cắm cho Coil 
-Chỉ sửa file `ui/ImageLoading.kt`, không cần sửa Adapter hay Activity:
-- `fun ImageView.loadImage(url: String)`: thay thân hàm bằng Coil (bất đồng bộ, cache RAM + disk, resize, timeout, hủy request). Dùng `ImagePlaceholders.loading` và `ImagePlaceholders.error` cho placeholder và ảnh lỗi.
-- `fun clearImageCache(context: Context)`: xóa memory cache và disk cache.
-- Hai nơi gọi `loadImage`: `ProductAdapter` dùng `thumbUrl` (ảnh nhỏ), `DetailActivity` dùng `imageUrl` (ảnh lớn).
+## 🚀 Build và chạy ứng dụng
 
-## Quy ước chung (giữ cố định để so sánh trước/sau)
-- Ảnh trong danh sách: khung cố định 96dp x 96dp (`item_image_size`), `centerCrop`.
-- Ảnh trong chi tiết: cao 240dp (`detail_image_height`), `centerCrop`.
-- Hai nhánh dùng chung `products.json`, giao diện và placeholder; chỉ khác tầng tải ảnh.
-- Quyền INTERNET và `usesCleartextTraffic` đã bật để gọi server local `http://10.0.2.2:8000`
-  (chỉ phục vụ thực nghiệm, bản thực tế nên dùng HTTPS).
+### Android Studio
+
+1. Clone hoặc tải repository về máy.
+2. Mở Android Studio, chọn **Open**, rồi chọn thư mục gốc của dự án.
+3. Chờ **Gradle Sync** hoàn tất.
+4. Chọn Android Emulator hoặc kết nối thiết bị Android.
+5. Nhấn **Run ▶** để build, cài đặt và chạy ứng dụng.
+
+### Dòng lệnh
+
+Mở Terminal tại thư mục gốc của dự án.
+
+**Windows:**
+
+```bat
+gradlew.bat assembleDebug
+```
+
+**macOS hoặc Linux:**
+
+```bash
+./gradlew assembleDebug
+```
+
+APK debug sau khi build thành công nằm tại:
+
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+Có thể cài APK lên thiết bị Android đã kết nối bằng:
+
+**Windows:**
+
+```bat
+gradlew.bat installDebug
+```
+
+**macOS hoặc Linux:**
+
+```bash
+./gradlew installDebug
+```
+
+### Build APK bằng Android Studio
+
+Chọn **Build > Build Bundle(s) / APK(s) > Build APK(s)**. Khi hoàn tất, nhấn **locate** trong thông báo để mở thư mục chứa APK.
+
+## 🖼️ Dữ liệu và URL ảnh
+
+Dữ liệu nằm tại `app/src/main/assets/products.json`. Mỗi sản phẩm có mã, tên, mô tả, `thumbUrl` (ảnh thu nhỏ) và `imageUrl` (ảnh chi tiết).
+
+Dữ liệu được tạo bằng `GenerateProductsTest`. Khi đổi nguồn ảnh:
+
+1. Sửa `baseUrl` và cách tạo `thumbUrl`, `imageUrl`.
+2. Chạy công cụ sinh dữ liệu theo hướng dẫn trong mã nguồn.
+3. Kiểm tra URL ảnh có thể truy cập từ emulator hoặc thiết bị thật.
+
+Nếu máy chủ ảnh chạy trên máy tính và ứng dụng chạy trong Android Emulator, dùng `http://10.0.2.2:<cổng>` để truy cập máy tính. Trên thiết bị thật, thay bằng địa chỉ IP phù hợp trong cùng mạng.
+
+## ⚙️ Tải ảnh và cache
+
+Điểm đặt logic tải ảnh là `ui/ImageLoading.kt`:
+
+| Thành phần | Vai trò |
+|---|---|
+| `ImageView.loadImage(url)` | Tải và hiển thị ảnh, placeholder, trạng thái lỗi và cấu hình resize/cache |
+| `clearImageCache(context)` | Xóa cache ảnh |
+| `ProductAdapter` | Dùng `thumbUrl` cho ảnh trong danh sách |
+| `DetailActivity` | Dùng `imageUrl` cho ảnh ở màn hình chi tiết |
+
+Kích thước hiển thị được giữ cố định để thuận tiện so sánh: ảnh danh sách **96dp × 96dp**, ảnh chi tiết cao **240dp**; cả hai dùng `centerCrop`.
+
+## 🌐 Quyền truy cập mạng
+
+Ứng dụng cần quyền `INTERNET` để tải ảnh từ URL. Nếu dùng máy chủ HTTP nội bộ cho thực nghiệm, cần bật cấu hình cho phép HTTP trong manifest. Khi triển khai thực tế, nên sử dụng HTTPS.
