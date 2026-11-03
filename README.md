@@ -4,6 +4,29 @@
 
 Ứng dụng minh họa danh sách sản phẩm có ảnh, màn hình chi tiết và khả năng cuộn qua nhiều mục. Dự án phục vụ việc tìm hiểu và đánh giá các kỹ thuật tải ảnh, cache, resize và hiển thị ảnh trên Android.
 
+## 🌿 Các nhánh Git
+
+Repository có hai nhánh để đối chiếu giữa phiên bản cơ sở và phiên bản tối ưu:
+
+| Nhánh | Nội dung |
+|---|---|
+| `baseline/no-coil` | Phiên bản cơ sở, không sử dụng Coil để tải ảnh. |
+| `optimized/coil` | Phiên bản tối ưu, sử dụng Coil để tải và quản lý ảnh. |
+
+Có thể chọn nhánh trong giao diện GitHub hoặc chuyển nhánh bằng Terminal tại thư mục dự án:
+
+```bash
+git switch baseline/no-coil
+```
+
+Hoặc:
+
+```bash
+git switch optimized/coil
+```
+
+Sau khi chuyển nhánh, hãy sync Gradle rồi build hoặc chạy ứng dụng theo hướng dẫn bên dưới.
+
 ## ✨ Chức năng
 
 - Hiển thị danh sách bằng `RecyclerView`.
