@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidimageoptimization.databinding.ItemProductBinding
 import com.example.androidimageoptimization.model.Product
+import com.example.androidimageoptimization.R
 
 class ProductAdapter(
-    private val onItemClick: (Product) -> Unit = {}
+    private val onItemClick: (Product) -> Unit = {},
 ) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffCallback) {
 
     class ProductViewHolder(val binding: ItemProductBinding) :
@@ -28,6 +29,7 @@ class ProductAdapter(
         holder.binding.tvDescription.text = product.description
         holder.binding.ivThumb.loadImage(product.thumbUrl)
         holder.binding.root.setOnClickListener { onItemClick(product) }
+        holder.itemView.context.getString(R.string.product_code, product.id)
     }
 
     object DiffCallback : DiffUtil.ItemCallback<Product>() {

@@ -22,7 +22,7 @@ class ProductRepository(context: Context) {
                     o.getString("name"),
                     o.getString("description"),
                     o.getString("thumbUrl"),
-                    o.getString("imageUrl")
+                    o.getString("imageUrl"),
                 )
             )
         }

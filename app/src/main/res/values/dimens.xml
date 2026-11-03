@@ -9,4 +9,11 @@
     <dimen name="detail_padding">16dp</dimen>
     <dimen name="detail_name_size">22sp</dimen>
     <dimen name="detail_desc_size">16sp</dimen>
+    <dimen name="card_corner">12dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_margin_h">16dp</dimen>
+    <dimen name="card_margin_v">6dp</dimen>
+    <dimen name="list_padding_vertical">8dp</dimen>
+    <dimen name="image_corner">12dp</dimen>
+    <dimen name="chip_text_size">11sp</dimen>
 </resources>
